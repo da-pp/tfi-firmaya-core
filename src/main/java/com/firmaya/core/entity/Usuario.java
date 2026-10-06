@@ -29,7 +29,6 @@ public class Usuario {
     @Column(name = "apellido", length = 100)
     private String apellido;
 
-    // Longitud 254 según CU-15/19/21 (ampliación I8)
     @Column(name = "email", length = 254)
     private String email;
 
@@ -42,7 +41,7 @@ public class Usuario {
     @Column(name = "intentos_fallidos")
     private Integer intentosFallidos;
 
-    // Fin del bloqueo temporal de 15 minutos (CU-19, ampliación I7)
+    // Fin del bloqueo temporal de 15 minutos
     @Column(name = "bloqueado_hasta")
     private LocalDateTime bloqueadoHasta;
 

@@ -11,11 +11,9 @@ public interface PreferenciaNotificacionRepository extends JpaRepository<Prefere
 
     List<PreferenciaNotificacion> findByUsuarioIdUsuario(Integer idUsuario);
 
-    // Fila de un evento (canal nulo)
     Optional<PreferenciaNotificacion> findFirstByUsuarioIdUsuarioAndTipoEventoAndCanalIsNull(Integer idUsuario,
             String tipoEvento);
 
-    // Fila de un canal (evento nulo)
     Optional<PreferenciaNotificacion> findFirstByUsuarioIdUsuarioAndCanalAndTipoEventoIsNull(Integer idUsuario,
             String canal);
 

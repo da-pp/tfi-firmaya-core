@@ -9,10 +9,6 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 
-/**
- * Documentación de la API (Swagger UI en /swagger-ui.html).
- * El botón "Authorize" recibe el token devuelto por POST /api/auth/login.
- */
 @Configuration
 public class SwaggerConfig {
 

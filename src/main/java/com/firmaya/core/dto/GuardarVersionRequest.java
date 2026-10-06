@@ -3,9 +3,6 @@ package com.firmaya.core.dto;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-/**
- * CU-02 pasos 9 a 15.
- */
 public class GuardarVersionRequest {
 
     @NotBlank(message = "El contenido del contrato debe tener al menos 100 caracteres")

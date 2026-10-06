@@ -12,7 +12,7 @@ import com.firmaya.core.repository.UsuarioContratoRepository;
 
 /**
  * Validación del token de invitación de una parte externa (sin cuenta).
- * La usan los comentarios externos del CU-06.
+ * La usan los comentarios externos.
  */
 @Service
 public class AccesoExternoService {

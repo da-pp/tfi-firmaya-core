@@ -2,9 +2,6 @@ package com.firmaya.core.dto;
 
 import java.util.List;
 
-/**
- * CU-18 pasos 15, 16 y 19: página de 50 registros con el total encontrado.
- */
 public class AuditoriaPaginaResponse {
 
     private long total;

@@ -5,9 +5,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-/**
- * CU-15 pasos 5 a 9: formulario de alta y edición de usuario.
- */
 public class UsuarioRequest {
 
     @NotBlank(message = "El campo Nombre es obligatorio")

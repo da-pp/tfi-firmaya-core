@@ -2,10 +2,6 @@ package com.firmaya.core.dto;
 
 import java.util.List;
 
-/**
- * Datos de una plantilla (CU-16 lista y detalle, CU-01 selección de plantilla).
- * En la lista del CU-16 no se envían cuerpo ni campos.
- */
 public class PlantillaResponse {
 
     private Integer idPlantilla;
@@ -17,7 +13,6 @@ public class PlantillaResponse {
     private Integer version;
     private List<String> camposDinamicos;
     private Boolean tieneContratosActivos;
-    // Solo al crear o editar: "Plantilla guardada exitosamente."
     private String mensaje;
 
     public String getMensaje() {

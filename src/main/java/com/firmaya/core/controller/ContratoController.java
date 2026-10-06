@@ -34,7 +34,6 @@ public class ContratoController {
         this.contratoService = contratoService;
     }
 
-    // CU-01 – Crear contrato desde plantilla
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public VersionGuardadaResponse crearContrato(@Valid @RequestBody CrearContratoRequest request,
@@ -42,20 +41,17 @@ public class ContratoController {
         return contratoService.crearContrato(request, usuario, httpRequest.getRemoteAddr());
     }
 
-    // CU-01 postcondición / CU-02 paso 1: lista de contratos del usuario
     @GetMapping
     public List<ContratoResumenResponse> listarContratos(
             @RequestAttribute(SesionInterceptor.ATRIBUTO_USUARIO) Usuario usuario) {
         return contratoService.listarContratosDelUsuario(usuario);
     }
 
-    // CU-02 pasos 2 a 8: contrato con su versión actual
     @GetMapping("/{idContrato}")
     public ContratoDetalleResponse obtenerContrato(@PathVariable Integer idContrato) {
         return contratoService.obtenerContrato(idContrato);
     }
 
-    // CU-02 – Editar contrato en línea: guardar nueva versión
     @PostMapping("/{idContrato}/versiones")
     @ResponseStatus(HttpStatus.CREATED)
     public VersionGuardadaResponse guardarVersion(@PathVariable Integer idContrato,

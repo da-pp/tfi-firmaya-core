@@ -2,9 +2,6 @@ package com.firmaya.core.dto;
 
 import java.time.LocalDateTime;
 
-/**
- * CU-18 pasos 4 a 9: una fila del registro de auditoría.
- */
 public class AuditoriaResponse {
 
     private Integer idRegistro;

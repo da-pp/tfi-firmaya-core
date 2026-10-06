@@ -40,11 +40,9 @@ public class VersionContrato {
     @Column(name = "hash_sha256", length = 64)
     private String hashSha256;
 
-    // CU-02/11/14 (ampliación I2)
     @Column(name = "comentario", length = 500)
     private String comentario;
 
-    // CU-14 (ampliación I2)
     @Column(name = "razon_restauracion", length = 500)
     private String razonRestauracion;
 

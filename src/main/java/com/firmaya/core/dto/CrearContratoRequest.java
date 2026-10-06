@@ -5,9 +5,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-/**
- * CU-01 pasos 3 a 10. Las fechas se reciben con formato DD/MM/AAAA.
- */
 public class CrearContratoRequest {
 
     public static final String MENSAJE_FECHA_INICIO =

@@ -11,7 +11,6 @@ import javax.persistence.Table;
 @Table(name = "estado_contrato")
 public class EstadoContrato {
 
-    // Estados definidos en CU-05 y CU-17
     public static final String BORRADOR = "Borrador";
     public static final String EN_REVISION = "En Revisión";
     public static final String LISTO_PARA_FIRMAR = "Listo para firmar";

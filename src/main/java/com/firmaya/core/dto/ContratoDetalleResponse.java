@@ -3,9 +3,6 @@ package com.firmaya.core.dto;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-/**
- * Contrato con los datos de su versión actual (CU-02 pasos 3 a 8 y cabecera de las pantallas del contrato).
- */
 public class ContratoDetalleResponse {
 
     private Integer idContrato;

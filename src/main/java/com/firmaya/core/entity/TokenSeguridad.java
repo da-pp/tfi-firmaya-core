@@ -28,7 +28,7 @@ public class TokenSeguridad {
     @JoinColumn(name = "id_usuario")
     private Usuario usuario;
 
-    // Parte del contrato dueña del OTP cuando el firmante es externo (CU-08, ampliación I6)
+    // Parte del contrato dueña del OTP cuando el firmante es externo
     @Column(name = "id_parte")
     private Integer idParte;
 

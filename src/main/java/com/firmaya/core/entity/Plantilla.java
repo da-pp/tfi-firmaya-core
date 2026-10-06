@@ -19,14 +19,12 @@ public class Plantilla {
     @Column(name = "id_plantilla")
     private Integer idPlantilla;
 
-    // Longitud 200 según CU-16 (ampliación I9)
     @Column(name = "nombre", length = 200)
     private String nombre;
 
     @Column(name = "tipo_contrato", length = 50)
     private String tipoContrato;
 
-    // Longitud 500 según CU-16 (ampliación I9)
     @Column(name = "descripcion_uso", length = 500)
     private String descripcionUso;
 

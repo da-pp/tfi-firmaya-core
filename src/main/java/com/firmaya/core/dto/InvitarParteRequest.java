@@ -4,9 +4,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-/**
- * CU-03 pasos 4 a 7: formulario de invitación.
- */
 public class InvitarParteRequest {
 
     @NotBlank(message = "El campo Correo electrónico es obligatorio")

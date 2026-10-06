@@ -11,9 +11,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-/**
- * Comentario de un contrato (CU-06). El autor es un usuario interno o una parte externa.
- */
 @Entity
 @Table(name = "comentario")
 public class Comentario {
@@ -27,12 +24,10 @@ public class Comentario {
     @JoinColumn(name = "id_contrato")
     private Contrato contrato;
 
-    // Autor interno (nulo si comenta una parte externa)
     @ManyToOne
     @JoinColumn(name = "id_usuario")
     private Usuario usuario;
 
-    // Autor externo (ampliación I4)
     @ManyToOne
     @JoinColumn(name = "id_parte")
     private UsuarioContrato parte;
@@ -43,7 +38,6 @@ public class Comentario {
     @Column(name = "fecha_publicacion")
     private LocalDateTime fechaPublicacion;
 
-    // Fragmento del contrato asociado al comentario (ampliación I4)
     @Column(name = "texto_seleccionado", columnDefinition = "TEXT")
     private String textoSeleccionado;
 

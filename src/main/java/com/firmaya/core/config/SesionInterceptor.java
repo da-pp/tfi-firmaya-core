@@ -13,7 +13,7 @@ import com.firmaya.core.exception.NoAutenticadoException;
 import com.firmaya.core.repository.SesionRepository;
 
 /**
- * Valida el encabezado "Authorization: Bearer {token}" contra la tabla SESION (CU-19).
+ * Valida el encabezado "Authorization: Bearer {token}" contra la tabla SESION.
  * Solo autentica: no controla roles ni permisos.
  * El usuario de la sesión queda disponible en el atributo ATRIBUTO_USUARIO del request.
  */

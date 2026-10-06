@@ -22,9 +22,6 @@ import com.firmaya.core.repository.EstadoContratoRepository;
 import com.firmaya.core.repository.TransicionEstadoRepository;
 import com.firmaya.core.repository.UsuarioContratoRepository;
 
-/**
- * CU-05 – Cambiar estado del contrato. Las transiciones permitidas están en TRANSICION_ESTADO.
- */
 @Service
 public class EstadoContratoService {
 
@@ -55,7 +52,6 @@ public class EstadoContratoService {
         this.auditoriaService = auditoriaService;
     }
 
-    // Pasos 2 a 4
     @Transactional(readOnly = true)
     public TransicionesResponse obtenerTransiciones(Integer idContrato) {
         Contrato contrato = contratoService.buscarContrato(idContrato);
@@ -70,34 +66,27 @@ public class EstadoContratoService {
         return response;
     }
 
-    /**
-     * Pasos 12 a 17.
-     */
     @Transactional
     public CambioEstadoResponse cambiarEstado(Integer idContrato, CambiarEstadoRequest request, Usuario usuario,
             String direccionIp) {
         Contrato contrato = contratoService.buscarContrato(idContrato);
         EstadoContrato anterior = contrato.getEstado();
 
-        // Paso 12: la transición debe estar permitida
         EstadoContrato nuevo = estadoContratoRepository.findByNombre(request.getNuevoEstado().trim()).orElse(null);
         if (nuevo == null || !transicionEstadoRepository
                 .existsByEstadoOrigenIdEstadoAndEstadoDestinoIdEstado(anterior.getIdEstado(), nuevo.getIdEstado())) {
             throw new ReglaNegocioException(MENSAJE_TRANSICION_INVALIDA);
         }
 
-        // Camino alternativo: "Listo para firmar" sin firmantes asignados
         boolean pasaAListoParaFirmar = EstadoContrato.LISTO_PARA_FIRMAR.equals(nuevo.getNombre());
         if (pasaAListoParaFirmar && !request.isContinuarSinFirmantes() && !usuarioContratoRepository
                 .existsByContratoIdContratoAndRolParte(idContrato, UsuarioContrato.ROL_FIRMANTE)) {
             throw new ConfirmacionRequeridaException(MENSAJE_SIN_FIRMANTES);
         }
 
-        // Paso 13
         contrato.setEstado(nuevo);
         contratoRepository.save(contrato);
 
-        // Paso 14: usuario, estado anterior, nuevo estado, fecha y hora
         String razon = request.getRazon() == null || request.getRazon().trim().isEmpty() ? null
                 : request.getRazon().trim();
         auditoriaService.registrarEnContrato(usuario, "Cambio de estado", idContrato, null,
@@ -105,7 +94,6 @@ public class EstadoContratoService {
                         + (razon == null ? "" : ". Razón: " + razon),
                 direccionIp, anterior.getNombre(), nuevo.getNombre());
 
-        // Paso 15: aviso a las partes invitadas con notificaciones activas
         String evento = pasaAListoParaFirmar ? PreferenciaNotificacion.EVENTO_LISTO_PARA_FIRMAR
                 : PreferenciaNotificacion.EVENTO_CAMBIO_ESTADO;
         String mensaje = "El contrato \"" + contrato.getNombre() + "\" cambió de estado de " + anterior.getNombre()
@@ -115,7 +103,6 @@ public class EstadoContratoService {
                     "FirmaYA - Cambio de estado del contrato", mensaje);
         }
 
-        // Pasos 16 y 17
         CambioEstadoResponse response = new CambioEstadoResponse();
         response.setEstadoAnterior(anterior.getNombre());
         response.setEstadoNuevo(nuevo.getNombre());

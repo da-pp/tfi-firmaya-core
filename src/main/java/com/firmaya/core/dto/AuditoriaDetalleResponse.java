@@ -1,8 +1,5 @@
 package com.firmaya.core.dto;
 
-/**
- * CU-18 paso 18: detalle expandido de un registro.
- */
 public class AuditoriaDetalleResponse {
 
     private AuditoriaResponse registro;

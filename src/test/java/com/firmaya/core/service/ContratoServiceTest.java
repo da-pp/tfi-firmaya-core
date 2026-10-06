@@ -139,7 +139,6 @@ class ContratoServiceTest {
     @Test
     void contenidoConMenosDe100CaracteresDeTextoEsRechazado() {
         prepararContrato(EstadoContrato.BORRADOR, 1);
-        // Muchas etiquetas HTML pero poco texto
         String corto = "<p><strong>" + repetir("a", 99) + "</strong></p>";
 
         ReglaNegocioException ex = assertThrows(ReglaNegocioException.class,

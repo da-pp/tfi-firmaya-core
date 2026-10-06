@@ -12,23 +12,16 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-/**
- * Preferencias de notificación de un usuario (CU-20).
- * - Fila de evento: tipo_evento informado, canal nulo; activa = interruptor del evento.
- * - Fila de canal: canal informado, tipo_evento nulo; activa = canal seleccionado.
- */
 @Entity
 @Table(name = "preferencia_notificacion")
 public class PreferenciaNotificacion {
 
-    // Eventos configurables (CU-20)
     public static final String EVENTO_NUEVA_VERSION = "Nueva versión publicada";
     public static final String EVENTO_FIRMA_RECIBIDA = "Firma recibida";
     public static final String EVENTO_LISTO_PARA_FIRMAR = "Contrato listo para firmar";
     public static final String EVENTO_NUEVO_COMENTARIO = "Nuevo comentario";
     public static final String EVENTO_CAMBIO_ESTADO = "Cambio de estado";
 
-    // Canales (CU-20 paso 6)
     public static final String CANAL_CORREO = "Correo electrónico";
     public static final String CANAL_PLATAFORMA = "Notificación de Plataforma";
 
@@ -51,7 +44,6 @@ public class PreferenciaNotificacion {
     @Column(name = "activa")
     private Boolean activa;
 
-    // CU-20 (ampliación I10)
     @Column(name = "tipo_evento", length = 50)
     private String tipoEvento;
 

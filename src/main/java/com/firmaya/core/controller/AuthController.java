@@ -30,27 +30,23 @@ public class AuthController {
         this.recuperacionService = recuperacionService;
     }
 
-    // CU-19 – Iniciar Sesión
     @PostMapping("/login")
     public LoginResponse login(@Valid @RequestBody LoginRequest request, HttpServletRequest httpRequest) {
         return authService.login(request, httpRequest.getRemoteAddr());
     }
 
-    // CU-21 – Recuperar Contraseña: solicitud del enlace (siempre el mismo mensaje)
     @PostMapping("/recuperar")
     public MensajeResponse recuperar(@Valid @RequestBody RecuperarContraseniaRequest request) {
         recuperacionService.solicitarRecuperacion(request.getEmail());
         return new MensajeResponse(RecuperacionService.MENSAJE_SOLICITUD);
     }
 
-    // CU-21 – Recuperar Contraseña: validación del enlace (paso 12)
     @GetMapping("/recuperar/{token}")
     public MensajeResponse validarToken(@PathVariable String token) {
         recuperacionService.validarToken(token);
         return new MensajeResponse("Enlace válido");
     }
 
-    // CU-21 – Recuperar Contraseña: nueva contraseña
     @PostMapping("/restablecer")
     public MensajeResponse restablecer(@Valid @RequestBody RestablecerContraseniaRequest request,
             HttpServletRequest httpRequest) {

@@ -13,9 +13,6 @@ import com.firmaya.core.entity.PreferenciaNotificacion;
 import com.firmaya.core.entity.Usuario;
 import com.firmaya.core.repository.NotificacionRepository;
 
-/**
- * Envía correos y registra cada envío en la tabla NOTIFICACION.
- */
 @Service
 public class NotificacionService {
 
@@ -35,10 +32,6 @@ public class NotificacionService {
         this.remitente = remitente;
     }
 
-    /**
-     * Devuelve true si el correo se envió. Si el servicio de correo falla devuelve false,
-     * para que cada caso de uso resuelva su camino alternativo.
-     */
     public boolean enviarCorreo(Usuario usuario, Integer idContrato, String tipo, String correoDestino,
             String asunto, String mensaje) {
         boolean enviado;
@@ -59,10 +52,6 @@ public class NotificacionService {
         return enviado;
     }
 
-    /**
-     * Reenvía el último correo de un tipo enviado a una dirección por un contrato ("Reintentar").
-     * Devuelve false si no hay un correo previo o si el envío vuelve a fallar.
-     */
     public boolean reenviarUltimoCorreo(Usuario usuario, Integer idContrato, String tipo, String correoDestino,
             String asunto) {
         Notificacion anterior = notificacionRepository
@@ -74,12 +63,6 @@ public class NotificacionService {
         return enviarCorreo(usuario, idContrato, tipo, correoDestino, asunto, anterior.getMensaje());
     }
 
-    /**
-     * Notificación de un evento a quien tenga "notificaciones activas" (CU-05, CU-06).
-     * - Parte externa (sin usuario): siempre por correo.
-     * - Usuario interno: según sus preferencias del CU-20 (evento y canales). Sin preferencias guardadas,
-     *   todo se considera activo.
-     */
     public void notificarEvento(Usuario usuario, String correoDestino, Integer idContrato, String evento,
             String asunto, String mensaje) {
         if (usuario == null) {

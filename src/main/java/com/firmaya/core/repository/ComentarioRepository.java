@@ -8,7 +8,6 @@ import com.firmaya.core.entity.Comentario;
 
 public interface ComentarioRepository extends JpaRepository<Comentario, Integer> {
 
-    // Orden cronológico (CU-06 paso 15)
     List<Comentario> findByContratoIdContratoOrderByFechaPublicacionAscIdComentarioAsc(Integer idContrato);
 
     long countByContratoIdContrato(Integer idContrato);

@@ -11,19 +11,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-/**
- * Parte invitada a un contrato (CU-03). Puede ser externa (sin usuario) o interna.
- */
 @Entity
 @Table(name = "usuario_contrato")
 public class UsuarioContrato {
 
-    // Roles de la parte (CU-03 paso 6)
     public static final String ROL_FIRMANTE = "Firmante";
     public static final String ROL_SOLO_LECTURA = "Solo lectura";
     public static final String ROL_REVISOR = "Revisor";
 
-    // Estados de la invitación (CU-03 pasos 13 y 15)
     public static final String INVITACION_PENDIENTE = "Pendiente";
     public static final String INVITACION_ENVIADA = "Invitación enviada";
 
@@ -36,12 +31,10 @@ public class UsuarioContrato {
     @JoinColumn(name = "id_contrato")
     private Contrato contrato;
 
-    // Nulo cuando la parte es externa
     @ManyToOne
     @JoinColumn(name = "id_usuario")
     private Usuario usuario;
 
-    // Longitud 254 según CU-03 (ampliación I3)
     @Column(name = "correo_invitado", length = 254)
     private String correoInvitado;
 
@@ -57,11 +50,9 @@ public class UsuarioContrato {
     @Column(name = "token_invitacion", length = 255)
     private String tokenInvitacion;
 
-    // CU-03 (ampliación I3)
     @Column(name = "nombre_parte", length = 150)
     private String nombreParte;
 
-    // CU-04 (ampliación I3)
     @Column(name = "fecha_expiracion_token")
     private LocalDateTime fechaExpiracionToken;
 

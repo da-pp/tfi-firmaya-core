@@ -80,7 +80,6 @@ class PlantillaServiceTest {
         assertEquals(PlantillaService.MENSAJE_SIN_CAMPOS, ex.getMessage());
         verify(plantillaRepository, never()).save(any(Plantilla.class));
 
-        // Con "Guardar sin campos" se guarda igual
         PlantillaResponse response = service.crearPlantilla(request("Texto fijo", true), administrador, "10.0.0.1");
         assertEquals(1, response.getVersion());
     }

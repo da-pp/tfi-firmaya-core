@@ -2,9 +2,6 @@ package com.firmaya.core.dto;
 
 import java.time.LocalDateTime;
 
-/**
- * CU-19 pasos 18 a 20: token de sesión, mensaje de bienvenida y rol para redirigir al panel.
- */
 public class LoginResponse {
 
     private String token;

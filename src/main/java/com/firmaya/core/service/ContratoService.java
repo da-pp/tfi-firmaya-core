@@ -28,9 +28,6 @@ import com.firmaya.core.repository.EstadoContratoRepository;
 import com.firmaya.core.repository.PlantillaRepository;
 import com.firmaya.core.repository.VersionContratoRepository;
 
-/**
- * CU-01 – Crear contrato desde plantilla y CU-02 – Editar contrato en línea.
- */
 @Service
 public class ContratoService {
 
@@ -57,12 +54,8 @@ public class ContratoService {
         this.auditoriaService = auditoriaService;
     }
 
-    /**
-     * CU-01 pasos 16 a 20.
-     */
     @Transactional
     public VersionGuardadaResponse crearContrato(CrearContratoRequest request, Usuario usuario, String direccionIp) {
-        // Paso 16: formato DD/MM/AAAA y fecha de inicio no anterior a hoy
         LocalDate fechaInicio = Fechas.leer(request.getFechaInicio(), "fechaInicio",
                 CrearContratoRequest.MENSAJE_FECHA_INICIO);
         if (fechaInicio.isBefore(LocalDate.now())) {
@@ -80,7 +73,6 @@ public class ContratoService {
             throw new ReglaNegocioException("idPlantilla", "La plantilla seleccionada no está activa");
         }
 
-        // Paso 19: contrato en estado Borrador asociado al usuario creador
         Contrato contrato = new Contrato();
         contrato.setNombre(request.getNombre().trim());
         contrato.setPartesInvolucradas(request.getPartesInvolucradas().trim());
@@ -92,7 +84,7 @@ public class ContratoService {
         contrato.setEstado(buscarEstado(EstadoContrato.BORRADOR));
         contratoRepository.save(contrato);
 
-        // Pasos 17 y 18: versión 1 generada desde la plantilla, con su hash SHA-256
+        // Versión 1 generada desde la plantilla, con su hash SHA-256
         String contenido = generarContenidoInicial(plantilla.getCuerpo(), contrato);
         VersionContrato version = guardarNuevaVersion(contrato, usuario, 1, contenido, null, null);
 
@@ -103,7 +95,6 @@ public class ContratoService {
         return toVersionGuardada(contrato, version, MENSAJE_CREADO);
     }
 
-    // Postcondición CU-01: el contrato queda disponible en la lista del usuario creador
     @Transactional(readOnly = true)
     public List<ContratoResumenResponse> listarContratosDelUsuario(Usuario usuario) {
         List<ContratoResumenResponse> respuesta = new ArrayList<>();
@@ -120,7 +111,6 @@ public class ContratoService {
         return respuesta;
     }
 
-    // CU-02 pasos 2 a 8: contrato con su versión actual e indicación de si es editable
     @Transactional(readOnly = true)
     public ContratoDetalleResponse obtenerContrato(Integer idContrato) {
         Contrato contrato = buscarContrato(idContrato);
@@ -144,24 +134,21 @@ public class ContratoService {
     }
 
     /**
-     * CU-02 pasos 13 a 20: guarda una nueva versión numerada con su hash.
+     * Guarda una nueva versión numerada con su hash.
      */
     @Transactional
     public VersionGuardadaResponse guardarVersion(Integer idContrato, GuardarVersionRequest request, Usuario usuario,
             String direccionIp) {
         Contrato contrato = buscarContrato(idContrato);
 
-        // Paso 2 / camino alternativo: solo Borrador o En Revisión
         if (!esEditable(contrato)) {
             throw new ReglaNegocioException(MENSAJE_NO_EDITABLE);
         }
 
-        // Pasos 14 y 15: cuerpo no vacío y con al menos 100 caracteres de texto (sin etiquetas HTML)
         if (ContenidoHtml.textoPlano(request.getContenido()).length() < CARACTERES_MINIMOS_CONTENIDO) {
             throw new ReglaNegocioException("contenido", MENSAJE_CONTENIDO_MINIMO);
         }
 
-        // Pasos 16 a 19
         VersionContrato anterior = versionActual(idContrato);
         VersionContrato nueva = guardarNuevaVersion(contrato, usuario, anterior.getNumeroVersion() + 1,
                 request.getContenido(), request.getComentario(), null);
@@ -170,12 +157,11 @@ public class ContratoService {
                 "Nueva versión " + nueva.getNumeroVersion() + " del contrato " + contrato.getNombre(), direccionIp,
                 describirVersion(anterior), describirVersion(nueva));
 
-        // Paso 20: mensaje con el número de versión y el hash generado
         return toVersionGuardada(contrato, nueva, MENSAJE_VERSION_GUARDADA);
     }
 
     /**
-     * Crea una versión nueva sin modificar las anteriores (CU-01, CU-02 y CU-14).
+     * Crea una versión nueva sin modificar las anteriores.
      */
     VersionContrato guardarNuevaVersion(Contrato contrato, Usuario autor, int numero, String contenido,
             String comentario, String razonRestauracion) {
@@ -206,10 +192,6 @@ public class ContratoService {
         return EstadoContrato.BORRADOR.equals(estado) || EstadoContrato.EN_REVISION.equals(estado);
     }
 
-    /**
-     * CU-01 paso 17: cuerpo de la plantilla con los marcadores del formulario reemplazados.
-     * Los demás marcadores quedan tal cual para completarlos en el editor (CU-02).
-     */
     String generarContenidoInicial(String cuerpoPlantilla, Contrato contrato) {
         Map<String, String> valores = new HashMap<>();
         valores.put("nombre_contrato", contrato.getNombre());
@@ -224,7 +206,7 @@ public class ContratoService {
             String marcador = matcher.group(1).trim();
             String reemplazo = matcher.group(0);
             if (valores.containsKey(marcador)) {
-                // Los datos del formulario se insertan en contenido HTML
+                // Se escapan los datos del formulario porque se insertan en contenido HTML
                 reemplazo = ContenidoHtml.escapar(valores.get(marcador));
             }
             matcher.appendReplacement(resultado, Matcher.quoteReplacement(reemplazo));

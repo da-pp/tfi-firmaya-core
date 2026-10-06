@@ -1,8 +1,5 @@
 package com.firmaya.core.dto;
 
-/**
- * CU-03 paso 2: parte invitada al contrato, con su enlace tokenizado para "Copiar enlace".
- */
 public class ParteResponse {
 
     private Integer idParte;

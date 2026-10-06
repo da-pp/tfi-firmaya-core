@@ -18,7 +18,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        // Rutas públicas: autenticación (CU-19, CU-21) y comentarios de partes externas por token (CU-06)
+        // Rutas públicas: autenticación, recuperación de contraseña y comentarios de partes externas por token
         registry.addInterceptor(sesionInterceptor)
                 .addPathPatterns("/api/**")
                 .excludePathPatterns("/api/auth/**", "/api/externo/**");

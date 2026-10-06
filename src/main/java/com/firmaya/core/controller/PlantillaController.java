@@ -32,13 +32,11 @@ public class PlantillaController {
         this.plantillaService = plantillaService;
     }
 
-    // CU-01 – Crear contrato desde plantilla: plantillas activas disponibles
     @GetMapping("/plantillas/activas")
     public List<PlantillaResponse> listarPlantillasActivas() {
         return plantillaService.listarPlantillasActivas();
     }
 
-    // CU-16 – Gestionar plantillas de contrato (BackOffice)
     @GetMapping("/admin/plantillas")
     public List<PlantillaResponse> listarPlantillas() {
         return plantillaService.listarPlantillas();

@@ -3,10 +3,6 @@ package com.firmaya.core.exception;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-/**
- * Cuerpo de error común. "errores" contiene el mensaje de cada campo inválido
- * para que el frontend muestre el helper debajo de cada campo.
- */
 public class ErrorResponse {
 
     private String mensaje;

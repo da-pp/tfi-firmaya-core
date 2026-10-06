@@ -1,8 +1,5 @@
 package com.firmaya.core.dto;
 
-/**
- * Resultado de crear o editar un usuario (CU-15).
- */
 public class UsuarioGuardadoResponse {
 
     private UsuarioResponse usuario;

@@ -4,9 +4,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-/**
- * CU-21 pasos 3 y 6.
- */
 public class RecuperarContraseniaRequest {
 
     @NotBlank(message = "El campo Correo electrónico es obligatorio")

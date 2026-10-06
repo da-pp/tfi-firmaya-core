@@ -1,8 +1,5 @@
 package com.firmaya.core.dto;
 
-/**
- * CU-03 pasos 15 y 16, y camino alternativo "Error al enviar el correo electrónico".
- */
 public class InvitacionResponse {
 
     private ParteResponse parte;

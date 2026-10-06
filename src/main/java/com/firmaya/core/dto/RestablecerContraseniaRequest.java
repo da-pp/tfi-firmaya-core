@@ -2,9 +2,6 @@ package com.firmaya.core.dto;
 
 import javax.validation.constraints.NotBlank;
 
-/**
- * CU-21 pasos 14 y 15. Los requisitos de la contraseña se validan en RecuperacionService.
- */
 public class RestablecerContraseniaRequest {
 
     @NotBlank(message = "El token es obligatorio")

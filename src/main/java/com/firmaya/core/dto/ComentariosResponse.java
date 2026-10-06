@@ -2,10 +2,6 @@ package com.firmaya.core.dto;
 
 import java.util.List;
 
-/**
- * CU-06: comentarios del contrato y contador del encabezado.
- * Al publicar, "comentario" trae el nuevo comentario y "mensaje" la confirmación.
- */
 public class ComentariosResponse {
 
     private List<ComentarioResponse> comentarios;

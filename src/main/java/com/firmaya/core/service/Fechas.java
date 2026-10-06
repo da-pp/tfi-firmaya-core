@@ -7,9 +7,6 @@ import java.time.format.ResolverStyle;
 
 import com.firmaya.core.exception.ReglaNegocioException;
 
-/**
- * Fechas con el formato DD/MM/AAAA de los casos de uso.
- */
 public final class Fechas {
 
     public static final DateTimeFormatter DD_MM_AAAA =
@@ -18,9 +15,6 @@ public final class Fechas {
     private Fechas() {
     }
 
-    /**
-     * Convierte el texto a fecha. Si no es una fecha válida lanza el error asociado al campo.
-     */
     public static LocalDate leer(String valor, String campo, String mensajeError) {
         try {
             return LocalDate.parse(valor.trim(), DD_MM_AAAA);

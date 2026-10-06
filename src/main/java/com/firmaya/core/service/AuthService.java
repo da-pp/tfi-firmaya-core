@@ -14,9 +14,6 @@ import com.firmaya.core.exception.NoAutenticadoException;
 import com.firmaya.core.repository.SesionRepository;
 import com.firmaya.core.repository.UsuarioRepository;
 
-/**
- * CU-19 – Iniciar Sesión.
- */
 @Service
 public class AuthService {
 
@@ -48,13 +45,12 @@ public class AuthService {
     public LoginResponse login(LoginRequest request, String direccionIp) {
         LocalDateTime ahora = LocalDateTime.now();
 
-        // Paso 15: la cuenta debe existir y estar activa
         Usuario usuario = usuarioRepository.findByEmailIgnoreCase(request.getEmail().trim()).orElse(null);
         if (usuario == null || !Usuario.ESTADO_ACTIVO.equals(usuario.getEstado())) {
             throw new NoAutenticadoException(MENSAJE_CREDENCIALES_INVALIDAS);
         }
 
-        // Camino alternativo: cuenta bloqueada por 15 minutos
+        // Cuenta bloqueada por 15 minutos
         if (usuario.getBloqueadoHasta() != null) {
             if (ahora.isBefore(usuario.getBloqueadoHasta())) {
                 throw new NoAutenticadoException(MENSAJE_CUENTA_BLOQUEADA);
@@ -64,7 +60,6 @@ public class AuthService {
             usuario.setIntentosFallidos(0);
         }
 
-        // Paso 16: la contraseña debe corresponder a la cuenta
         if (!contraseniaCorrecta(request.getContrasenia(), usuario.getContraseniaHash())) {
             registrarIntentoFallido(usuario, ahora);
         }
@@ -72,11 +67,9 @@ public class AuthService {
         usuario.setIntentosFallidos(0);
         usuarioRepository.save(usuario);
 
-        // Paso 17: auditoría con fecha, hora e IP
         auditoriaService.registrar(usuario, "Inicio de sesión", "usuario", usuario.getIdUsuario(),
                 "Inicio de sesión de " + usuario.getEmail(), direccionIp);
 
-        // Paso 18: sesión autenticada
         Sesion sesion = crearSesion(usuario, ahora);
 
         return toResponse(usuario, sesion);

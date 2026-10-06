@@ -1,8 +1,5 @@
 package com.firmaya.core.dto;
 
-/**
- * CU-05 pasos 16 y 17.
- */
 public class CambioEstadoResponse {
 
     private String estadoAnterior;

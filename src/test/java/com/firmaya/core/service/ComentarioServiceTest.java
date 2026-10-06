@@ -83,7 +83,6 @@ class ComentarioServiceTest {
         assertEquals(4, response.getTotalComentarios());
         assertEquals(ComentarioService.MENSAJE_PUBLICADO, response.getMensaje());
         verify(comentarioRepository).save(any(Comentario.class));
-        // Se notifica a las dos partes, no al creador que comentó
         verify(notificacionService).notificarEvento(isNull(), eq("carlos@mail.com"), eq(10),
                 eq(PreferenciaNotificacion.EVENTO_NUEVO_COMENTARIO), anyString(), anyString());
         verify(notificacionService).notificarEvento(isNull(), eq("ana@mail.com"), eq(10), anyString(), anyString(),

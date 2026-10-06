@@ -104,7 +104,6 @@ class EstadoContratoServiceTest {
                         "10.0.0.1"));
         assertEquals(EstadoContratoService.MENSAJE_SIN_FIRMANTES, ex.getMessage());
 
-        // Con "Continuar" el cambio se realiza
         service.cambiarEstado(10, request(EstadoContrato.LISTO_PARA_FIRMAR, true), usuario, "10.0.0.1");
         assertEquals(EstadoContrato.LISTO_PARA_FIRMAR, contrato.getEstado().getNombre());
     }

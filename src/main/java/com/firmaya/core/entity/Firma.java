@@ -12,14 +12,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-/**
- * Firma de una parte con rol Firmante sobre una versión del contrato (CU-07, CU-08, CU-09).
- */
 @Entity
 @Table(name = "firma")
 public class Firma {
 
-    // Estados de la firma (CU-07 paso 6, CU-09 paso 16)
     public static final String ESTADO_PENDIENTE = "Pendiente";
     public static final String ESTADO_NOTIFICADO = "Notificado";
     public static final String ESTADO_RENOTIFICADO = "Re-notificado";
@@ -47,7 +43,6 @@ public class Firma {
     @Column(name = "hash_firma", length = 255)
     private String hashFirma;
 
-    // Columnas de la ampliación I5
     @Column(name = "token_firma", length = 255)
     private String tokenFirma;
 

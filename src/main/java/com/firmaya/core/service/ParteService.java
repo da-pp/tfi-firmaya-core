@@ -20,9 +20,6 @@ import com.firmaya.core.exception.ReglaNegocioException;
 import com.firmaya.core.repository.UsuarioContratoRepository;
 import com.firmaya.core.repository.UsuarioRepository;
 
-/**
- * CU-03 – Invitar a las partes al contrato.
- */
 @Service
 public class ParteService {
 
@@ -56,7 +53,6 @@ public class ParteService {
         this.frontendUrl = frontendUrl;
     }
 
-    // Paso 2: lista de partes ya invitadas
     @Transactional(readOnly = true)
     public List<ParteResponse> listarPartes(Integer idContrato) {
         contratoService.buscarContrato(idContrato);
@@ -67,29 +63,23 @@ public class ParteService {
         return respuesta;
     }
 
-    /**
-     * Pasos 9 a 16.
-     */
     @Transactional
     public InvitacionResponse invitarParte(Integer idContrato, InvitarParteRequest request, Usuario usuario,
             String direccionIp) {
         Contrato contrato = contratoService.buscarContrato(idContrato);
-        // Precondición: el contrato no está Archivado
         if (EstadoContrato.ARCHIVADO.equals(contrato.getEstado().getNombre())) {
             throw new ReglaNegocioException("No se pueden invitar partes a un contrato archivado.");
         }
 
-        // Paso 9: el correo no debe pertenecer a una parte ya invitada a este contrato
         String email = request.getEmail().trim();
         if (usuarioContratoRepository.existsByContratoIdContratoAndCorreoInvitadoIgnoreCase(idContrato, email)) {
             throw new ReglaNegocioException("email", MENSAJE_YA_INVITADO);
         }
 
-        // Pasos 12 y 13: token único y registro de la parte en estado "Pendiente"
+        // Token único de acceso para la parte invitada
         LocalDateTime ahora = LocalDateTime.now();
         UsuarioContrato parte = new UsuarioContrato();
         parte.setContrato(contrato);
-        // Si el correo pertenece a un usuario interno, la parte queda vinculada a él
         parte.setUsuario(usuarioRepository.findByEmailIgnoreCase(email).orElse(null));
         parte.setCorreoInvitado(email);
         parte.setNombreParte(request.getNombre().trim());
@@ -104,15 +94,11 @@ public class ParteService {
                 "Invitación de " + parte.getNombreParte() + " (" + email + ") como " + parte.getRolParte(),
                 direccionIp, null, null);
 
-        // Paso 14: correo con el enlace tokenizado, el nombre del contrato y el mensaje personalizado
         boolean enviado = notificacionService.enviarCorreo(parte.getUsuario(), idContrato, TIPO_NOTIFICACION, email,
                 ASUNTO_CORREO, armarCorreo(parte, request.getMensaje()));
         return resultadoEnvio(parte, enviado);
     }
 
-    /**
-     * Camino alternativo "Error al enviar el correo electrónico", botón "Reintentar".
-     */
     @Transactional
     public InvitacionResponse reenviarInvitacion(Integer idContrato, Integer idParte) {
         UsuarioContrato parte = usuarioContratoRepository.findByIdParteAndContratoIdContrato(idParte, idContrato)
@@ -126,7 +112,6 @@ public class ParteService {
         return frontendUrl + "/acceso/" + parte.getTokenInvitacion();
     }
 
-    // Paso 15: si el correo se envió, la parte pasa a "Invitación enviada"
     private InvitacionResponse resultadoEnvio(UsuarioContrato parte, boolean enviado) {
         if (enviado) {
             parte.setEstadoInvitacion(UsuarioContrato.INVITACION_ENVIADA);

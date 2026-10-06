@@ -24,7 +24,6 @@ public class Notificacion {
     @Column(name = "id_notificacion")
     private Integer idNotificacion;
 
-    // Nulo cuando el destinatario es una parte externa sin usuario
     @ManyToOne
     @JoinColumn(name = "id_usuario")
     private Usuario usuario;
@@ -38,7 +37,6 @@ public class Notificacion {
     @Column(name = "canal", length = 50)
     private String canal;
 
-    // Longitud 254 (ampliación I13)
     @Column(name = "correo_destino", length = 254)
     private String correoDestino;
 

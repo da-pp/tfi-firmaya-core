@@ -20,9 +20,6 @@ import com.firmaya.core.repository.RolRepository;
 import com.firmaya.core.repository.SesionRepository;
 import com.firmaya.core.repository.UsuarioRepository;
 
-/**
- * CU-15 – Gestionar usuarios y roles.
- */
 @Service
 public class UsuarioService {
 
@@ -46,7 +43,6 @@ public class UsuarioService {
         this.auditoriaService = auditoriaService;
     }
 
-    // Paso 2
     @Transactional(readOnly = true)
     public List<UsuarioResponse> listarUsuarios() {
         List<UsuarioResponse> respuesta = new ArrayList<>();
@@ -56,7 +52,6 @@ public class UsuarioService {
         return respuesta;
     }
 
-    // Paso 8: opciones del desplegable de rol
     @Transactional(readOnly = true)
     public List<RolResponse> listarRoles() {
         List<RolResponse> respuesta = new ArrayList<>();
@@ -66,9 +61,6 @@ public class UsuarioService {
         return respuesta;
     }
 
-    /**
-     * Pasos 13 y 16 a 21.
-     */
     @Transactional
     public UsuarioGuardadoResponse crearUsuario(UsuarioRequest request, Usuario administrador, String direccionIp) {
         String email = request.getEmail().trim();
@@ -76,20 +68,17 @@ public class UsuarioService {
             throw new ReglaNegocioException("email", MENSAJE_EMAIL_REGISTRADO);
         }
 
-        // Paso 18: la cuenta se crea sin contraseña; el usuario la define con el enlace de activación
+        // La cuenta se crea sin contraseña; el usuario la define con el enlace de activación
         Usuario usuario = new Usuario();
         copiarDatos(request, usuario);
         usuario.setIntentosFallidos(0);
         usuarioRepository.save(usuario);
 
-        // Paso 19 (el resultado del envío queda registrado en NOTIFICACION)
         recuperacionService.enviarActivacion(usuario);
 
-        // Paso 21
         auditoriaService.registrarCambio(administrador, "Creación", "usuario", usuario.getIdUsuario(),
                 "Creación del usuario " + usuario.getEmail(), direccionIp, null, describir(usuario));
 
-        // Paso 20
         UsuarioGuardadoResponse response = new UsuarioGuardadoResponse();
         response.setUsuario(toResponse(usuario));
         response.setMensaje(MENSAJE_CREADO);
@@ -97,8 +86,8 @@ public class UsuarioService {
     }
 
     /**
-     * Edición de un usuario existente (mismo formulario que el alta).
-     * Si pasa de Activo a Inactivo, cierra sus sesiones activas (camino alternativo, paso G).
+     * Edición de un usuario existente.
+     * Si pasa de Activo a Inactivo, cierra sus sesiones activas.
      */
     @Transactional
     public UsuarioGuardadoResponse editarUsuario(Integer idUsuario, UsuarioRequest request, Usuario administrador,
@@ -151,7 +140,6 @@ public class UsuarioService {
         sesionRepository.saveAll(sesiones);
     }
 
-    // Texto legible para los datos antes/después del registro de auditoría
     private String describir(Usuario usuario) {
         return "Nombre: " + usuario.getNombre()
                 + " | Apellido: " + usuario.getApellido()

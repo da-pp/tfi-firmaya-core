@@ -24,9 +24,6 @@ import com.firmaya.core.repository.CampoPlantillaRepository;
 import com.firmaya.core.repository.ContratoRepository;
 import com.firmaya.core.repository.PlantillaRepository;
 
-/**
- * CU-16 – Gestionar plantillas de contrato. También lista las plantillas activas para el CU-01.
- */
 @Service
 public class PlantillaService {
 
@@ -34,7 +31,6 @@ public class PlantillaService {
             + "¿Desea guardarla de todos modos?";
     static final String MENSAJE_GUARDADA = "Plantilla guardada exitosamente.";
 
-    // Marcadores {{nombre_campo}} (también se usa al generar la versión 1 del contrato, CU-01)
     static final Pattern PATRON_MARCADOR = Pattern.compile("\\{\\{([^{}]+)\\}\\}");
     private static final int LONGITUD_MAXIMA_MARCADOR = 100;
 
@@ -52,7 +48,6 @@ public class PlantillaService {
         this.auditoriaService = auditoriaService;
     }
 
-    // CU-16 paso 2
     @Transactional(readOnly = true)
     public List<PlantillaResponse> listarPlantillas() {
         List<PlantillaResponse> respuesta = new ArrayList<>();
@@ -62,7 +57,6 @@ public class PlantillaService {
         return respuesta;
     }
 
-    // CU-16 edición: datos actuales y aviso de contratos activos (camino alternativo, paso B)
     @Transactional(readOnly = true)
     public PlantillaResponse obtenerPlantilla(Integer idPlantilla) {
         Plantilla plantilla = buscarPlantilla(idPlantilla);
@@ -72,7 +66,6 @@ public class PlantillaService {
         return response;
     }
 
-    // CU-01 paso 2: plantillas activas para elegir. Lista vacía = "No hay plantillas disponibles".
     @Transactional(readOnly = true)
     public List<PlantillaResponse> listarPlantillasActivas() {
         List<PlantillaResponse> respuesta = new ArrayList<>();
@@ -83,9 +76,6 @@ public class PlantillaService {
         return respuesta;
     }
 
-    /**
-     * CU-16 pasos 16 a 20: guarda la plantilla como versión 1.
-     */
     @Transactional
     public PlantillaResponse crearPlantilla(PlantillaRequest request, Usuario administrador, String direccionIp) {
         List<String> marcadores = validarMarcadores(request);
@@ -103,11 +93,6 @@ public class PlantillaService {
         return response;
     }
 
-    /**
-     * CU-16 camino alternativo "Editar plantilla con contratos activos", paso D:
-     * crea una nueva versión de la plantilla. Los contratos existentes no se alteran
-     * porque su contenido está guardado en VERSION_CONTRATO.
-     */
     @Transactional
     public PlantillaResponse editarPlantilla(Integer idPlantilla, PlantillaRequest request, Usuario administrador,
             String direccionIp) {
@@ -129,9 +114,6 @@ public class PlantillaService {
         return response;
     }
 
-    /**
-     * CU-16 paso 14: marcadores {{campo}} del cuerpo, sin repetir y en orden de aparición.
-     */
     public static List<String> extraerMarcadores(String cuerpo) {
         Set<String> marcadores = new LinkedHashSet<>();
         Matcher matcher = PATRON_MARCADOR.matcher(cuerpo == null ? "" : cuerpo);
@@ -144,7 +126,6 @@ public class PlantillaService {
         return new ArrayList<>(marcadores);
     }
 
-    // CU-16 paso 18 y camino alternativo "La plantilla no contiene campos dinámicos"
     private List<String> validarMarcadores(PlantillaRequest request) {
         List<String> marcadores = extraerMarcadores(request.getCuerpo());
         if (marcadores.isEmpty() && !request.isGuardarSinCampos()) {

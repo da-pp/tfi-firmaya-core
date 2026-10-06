@@ -2,9 +2,6 @@ package com.firmaya.core.dto;
 
 import java.time.LocalDateTime;
 
-/**
- * CU-17 paso 9: nombre, estado, persona responsable y última modificación de un contrato.
- */
 public class ContratoResumenResponse {
 
     private Integer idContrato;

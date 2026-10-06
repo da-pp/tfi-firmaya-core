@@ -11,9 +11,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-/**
- * PDF final del contrato firmado (CU-10).
- */
 @Entity
 @Table(name = "documento_pdf")
 public class DocumentoPdf {
@@ -30,7 +27,6 @@ public class DocumentoPdf {
     @Column(name = "nombre_archivo", length = 255)
     private String nombreArchivo;
 
-    // BYTEA en PostgreSQL
     @Column(name = "contenido_final")
     private byte[] contenidoFinal;
 

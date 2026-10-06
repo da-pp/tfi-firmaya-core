@@ -78,7 +78,6 @@ class ParteServiceTest {
         assertTrue(response.isCorreoEnviado());
         assertEquals("Invitación enviada exitosamente a ana@mail.com", response.getMensaje());
         assertEquals("http://localhost:3000/acceso/" + parte.getTokenInvitacion(), response.getParte().getEnlace());
-        // El correo incluye el nombre del contrato, el mensaje personalizado y el enlace
         verify(notificacionService).enviarCorreo(isNull(), eq(10), anyString(), eq("ana@mail.com"), anyString(),
                 contains("Locación Corrientes"));
         verify(notificacionService).enviarCorreo(isNull(), eq(10), anyString(), eq("ana@mail.com"), anyString(),

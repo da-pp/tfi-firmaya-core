@@ -20,7 +20,6 @@ public class Auditoria {
     @Column(name = "id_registro")
     private Integer idRegistro;
 
-    // Nulo cuando la acción la realiza una parte externa (acceso por token)
     @ManyToOne
     @JoinColumn(name = "id_usuario")
     private Usuario usuario;
@@ -43,7 +42,6 @@ public class Auditoria {
     @Column(name = "fecha_hora")
     private LocalDateTime fechaHora;
 
-    // Detalle del registro en CU-18 (ampliación I11)
     @Column(name = "datos_antes", columnDefinition = "TEXT")
     private String datosAntes;
 

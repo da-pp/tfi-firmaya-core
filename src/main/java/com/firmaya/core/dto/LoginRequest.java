@@ -4,9 +4,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-/**
- * CU-19 pasos 3, 4, 12, 13 y 14.
- */
 public class LoginRequest {
 
     @NotBlank(message = "El campo Correo electrónico es obligatorio")

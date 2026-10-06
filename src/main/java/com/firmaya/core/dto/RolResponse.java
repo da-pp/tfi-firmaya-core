@@ -1,8 +1,5 @@
 package com.firmaya.core.dto;
 
-/**
- * Opción del desplegable de rol (CU-15 paso 8).
- */
 public class RolResponse {
 
     private Integer idRol;

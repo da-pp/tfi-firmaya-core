@@ -29,9 +29,6 @@ import com.firmaya.core.repository.AuditoriaRepository;
 import com.firmaya.core.repository.ContratoRepository;
 import com.firmaya.core.repository.VersionContratoRepository;
 
-/**
- * CU-18 – Registro de acciones de auditoría (consulta, detalle y exportación CSV).
- */
 @Service
 public class AuditoriaConsultaService {
 
@@ -52,9 +49,6 @@ public class AuditoriaConsultaService {
         this.versionContratoRepository = versionContratoRepository;
     }
 
-    /**
-     * Pasos 2 y 10 a 20. Sin filtros devuelve las últimas 50 acciones.
-     */
     @Transactional(readOnly = true)
     public AuditoriaPaginaResponse buscar(LocalDate fechaDesde, LocalDate fechaHasta, String usuario,
             String tipoAccion, String contrato, int pagina) {
@@ -84,9 +78,6 @@ public class AuditoriaConsultaService {
         return response;
     }
 
-    /**
-     * Paso 18: datos antes y después, versión del contrato afectado y hash.
-     */
     @Transactional(readOnly = true)
     public AuditoriaDetalleResponse obtenerDetalle(Integer idRegistro) {
         Auditoria auditoria = auditoriaRepository.findById(idRegistro)
@@ -107,9 +98,6 @@ public class AuditoriaConsultaService {
         return detalle;
     }
 
-    /**
-     * Pasos 21 y 22: CSV con todos los registros que cumplen los filtros activos.
-     */
     @Transactional(readOnly = true)
     public String exportarCsv(LocalDate fechaDesde, LocalDate fechaHasta, String usuario, String tipoAccion,
             String contrato) {
@@ -132,7 +120,6 @@ public class AuditoriaConsultaService {
 
     private Specification<Auditoria> construirFiltro(LocalDate fechaDesde, LocalDate fechaHasta, String usuario,
             String tipoAccion, String contrato) {
-        // El filtro por contrato busca primero los contratos cuyo nombre contiene el texto
         List<Integer> idsContrato = null;
         if (tieneTexto(contrato)) {
             idsContrato = new ArrayList<>();
@@ -164,7 +151,6 @@ public class AuditoriaConsultaService {
             }
             if (idsContratoFiltro != null) {
                 if (idsContratoFiltro.isEmpty()) {
-                    // Ningún contrato coincide con el texto buscado
                     condiciones.add(cb.disjunction());
                 } else {
                     condiciones.add(cb.equal(root.get("entidadAfectada"), ENTIDAD_CONTRATO));

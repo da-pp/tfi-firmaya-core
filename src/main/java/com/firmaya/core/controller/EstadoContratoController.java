@@ -18,9 +18,6 @@ import com.firmaya.core.dto.TransicionesResponse;
 import com.firmaya.core.entity.Usuario;
 import com.firmaya.core.service.EstadoContratoService;
 
-/**
- * CU-05 – Cambiar estado del contrato.
- */
 @RestController
 @RequestMapping("/api/contratos/{idContrato}")
 public class EstadoContratoController {

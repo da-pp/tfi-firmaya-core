@@ -32,15 +32,12 @@ public class Contrato {
     @JoinColumn(name = "id_usuario_creador")
     private Usuario usuarioCreador;
 
-    // Longitud 200 según CU-01 (ampliación I1)
     @Column(name = "nombre", length = 200)
     private String nombre;
 
-    // Longitud 2000 según CU-01 (ampliación I1)
     @Column(name = "descripcion_propiedad", length = 2000)
     private String descripcionPropiedad;
 
-    // CU-01 (ampliación I1)
     @Column(name = "partes_involucradas", length = 1000)
     private String partesInvolucradas;
 

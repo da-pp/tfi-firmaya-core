@@ -11,7 +11,6 @@ public interface FirmaRepository extends JpaRepository<Firma, Integer> {
 
     List<Firma> findByParteContratoIdContrato(Integer idContrato);
 
-    // Firma más reciente de una parte
     Optional<Firma> findFirstByParteIdParteOrderByIdFirmaDesc(Integer idParte);
 
     Optional<Firma> findByIdFirmaAndParteContratoIdContrato(Integer idFirma, Integer idContrato);

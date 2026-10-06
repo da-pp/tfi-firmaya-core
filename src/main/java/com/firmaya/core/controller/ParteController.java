@@ -22,9 +22,6 @@ import com.firmaya.core.dto.ParteResponse;
 import com.firmaya.core.entity.Usuario;
 import com.firmaya.core.service.ParteService;
 
-/**
- * CU-03 – Invitar a las partes al contrato.
- */
 @RestController
 @RequestMapping("/api/contratos/{idContrato}/partes")
 public class ParteController {

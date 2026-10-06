@@ -17,9 +17,6 @@ import com.firmaya.core.dto.AuditoriaDetalleResponse;
 import com.firmaya.core.dto.AuditoriaPaginaResponse;
 import com.firmaya.core.service.AuditoriaConsultaService;
 
-/**
- * CU-18 – Registro de acciones de auditoría. Fechas en formato DD/MM/AAAA.
- */
 @RestController
 @RequestMapping("/api/admin/auditoria")
 public class AuditoriaController {
@@ -49,7 +46,6 @@ public class AuditoriaController {
             @RequestParam(required = false) String tipoAccion,
             @RequestParam(required = false) String contrato) {
         String csv = auditoriaConsultaService.exportarCsv(fechaDesde, fechaHasta, usuario, tipoAccion, contrato);
-        // BOM UTF-8 para que los acentos se vean bien al abrir el archivo en Excel
         byte[] contenido = ("﻿" + csv).getBytes(StandardCharsets.UTF_8);
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"registro_auditoria.csv\"")

@@ -18,10 +18,6 @@ import com.firmaya.core.dto.ComentariosResponse;
 import com.firmaya.core.entity.Usuario;
 import com.firmaya.core.service.ComentarioService;
 
-/**
- * CU-06 – Añadir comentarios y observaciones.
- * Usuarios internos con sesión y partes externas con su token de acceso.
- */
 @RestController
 public class ComentarioController {
 

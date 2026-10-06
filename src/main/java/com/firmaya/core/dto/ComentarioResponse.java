@@ -2,9 +2,6 @@ package com.firmaya.core.dto;
 
 import java.time.LocalDateTime;
 
-/**
- * CU-06 paso 14: comentario con autor, fecha, hora, texto y texto seleccionado.
- */
 public class ComentarioResponse {
 
     private Integer idComentario;

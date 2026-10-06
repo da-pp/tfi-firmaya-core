@@ -11,9 +11,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
-/**
- * Convierte las excepciones en respuestas HTTP con un formato común.
- */
 @RestControllerAdvice
 public class ManejadorErrores {
 
@@ -21,7 +18,6 @@ public class ManejadorErrores {
     public ResponseEntity<ErrorResponse> validacion(MethodArgumentNotValidException ex) {
         ErrorResponse error = new ErrorResponse("Hay campos con errores");
         for (FieldError campo : ex.getBindingResult().getFieldErrors()) {
-            // Se conserva el primer error de cada campo
             if (!error.getErrores().containsKey(campo.getField())) {
                 error.getErrores().put(campo.getField(), campo.getDefaultMessage());
             }
@@ -29,7 +25,6 @@ public class ManejadorErrores {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
-    // Parámetros de la URL con formato inválido (por ejemplo una fecha que no es DD/MM/AAAA)
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<ErrorResponse> formatoInvalido(MethodArgumentTypeMismatchException ex) {
         ErrorResponse error = new ErrorResponse("Hay campos con errores");

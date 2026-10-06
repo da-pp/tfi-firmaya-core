@@ -1,8 +1,5 @@
 package com.firmaya.core.dto;
 
-/**
- * Resultado de generar una versión del contrato (CU-01, CU-02).
- */
 public class VersionGuardadaResponse {
 
     private Integer idContrato;

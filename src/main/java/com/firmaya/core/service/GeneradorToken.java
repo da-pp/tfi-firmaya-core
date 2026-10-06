@@ -20,7 +20,7 @@ public class GeneradorToken {
     }
 
     /**
-     * Código OTP numérico de 6 dígitos (CU-08).
+     * Código OTP numérico de 6 dígitos.
      */
     public String generarCodigoOtp() {
         return String.format("%06d", secureRandom.nextInt(1000000));

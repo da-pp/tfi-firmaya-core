@@ -5,10 +5,6 @@ import org.springframework.stereotype.Service;
 import com.firmaya.core.entity.Usuario;
 import com.firmaya.core.repository.PreferenciaNotificacionRepository;
 
-/**
- * Consulta de las preferencias de notificación de un usuario.
- * Un evento o canal sin preferencia guardada se considera activo.
- */
 @Service
 public class PreferenciaService {
 

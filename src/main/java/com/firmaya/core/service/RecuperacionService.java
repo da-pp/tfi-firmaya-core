@@ -17,11 +17,6 @@ import com.firmaya.core.exception.ReglaNegocioException;
 import com.firmaya.core.repository.TokenSeguridadRepository;
 import com.firmaya.core.repository.UsuarioRepository;
 
-/**
- * CU-21 – Recuperar Contraseña.
- * También envía el enlace de activación del CU-15: el usuario nuevo define su contraseña
- * en la misma pantalla de restablecimiento.
- */
 @Service
 public class RecuperacionService {
 
@@ -58,7 +53,7 @@ public class RecuperacionService {
     }
 
     /**
-     * CU-21 pasos 8 a 10. El llamador responde siempre MENSAJE_SOLICITUD, exista o no la cuenta.
+     * El llamador responde siempre MENSAJE_SOLICITUD, exista o no la cuenta.
      */
     @Transactional
     public void solicitarRecuperacion(String email) {
@@ -75,10 +70,6 @@ public class RecuperacionService {
                 "FirmaYA - Recuperar contraseña", mensaje);
     }
 
-    /**
-     * CU-15 paso 19: correo con instrucciones para que el usuario nuevo establezca su contraseña.
-     * Devuelve true si el correo se envió.
-     */
     public boolean enviarActivacion(Usuario usuario) {
         String token = crearToken(usuario, TokenSeguridad.TIPO_ACTIVACION, MINUTOS_TOKEN_ACTIVACION);
         String mensaje = "Hola " + usuario.getNombre() + ",\n\n"
@@ -90,16 +81,13 @@ public class RecuperacionService {
     }
 
     /**
-     * CU-21 paso 12: el token debe existir, no estar usado y no haber expirado.
+     * El token debe existir, no estar usado y no haber expirado.
      */
     @Transactional(readOnly = true)
     public void validarToken(String valor) {
         buscarTokenVigente(valor);
     }
 
-    /**
-     * CU-21 pasos 14 a 23.
-     */
     @Transactional
     public void restablecerContrasenia(RestablecerContraseniaRequest request, String direccionIp) {
         TokenSeguridad token = buscarTokenVigente(request.getToken());
@@ -109,16 +97,15 @@ public class RecuperacionService {
             throw new ReglaNegocioException(MENSAJE_NO_COINCIDEN);
         }
 
-        // Paso 21
+        // Se guarda solo el hash BCrypt de la nueva contraseña
         Usuario usuario = token.getUsuario();
         usuario.setContraseniaHash(passwordEncoder.encode(request.getNuevaContrasenia()));
         usuarioRepository.save(usuario);
 
-        // Paso 22
+        // El token es de un solo uso
         token.setUsado(true);
         tokenSeguridadRepository.save(token);
 
-        // Paso 23
         auditoriaService.registrar(usuario, "Cambio de contraseña", "usuario", usuario.getIdUsuario(),
                 "Restablecimiento de contraseña de " + usuario.getEmail(), direccionIp);
     }
@@ -150,7 +137,7 @@ public class RecuperacionService {
         return token;
     }
 
-    // CU-21 paso 14: mínimo 8 caracteres, al menos 1 mayúscula, 1 número y 1 carácter especial
+    // Requisitos: mínimo 8 caracteres, al menos 1 mayúscula, 1 número y 1 carácter especial
     private void validarRequisitos(String contrasenia) {
         List<String> faltantes = new ArrayList<>();
         if (contrasenia.length() < 8) {

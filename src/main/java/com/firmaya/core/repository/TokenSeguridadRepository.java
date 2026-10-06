@@ -12,7 +12,7 @@ public interface TokenSeguridadRepository extends JpaRepository<TokenSeguridad, 
 
     Optional<TokenSeguridad> findByValorAndTipoTokenIn(String valor, Collection<String> tiposToken);
 
-    // Códigos OTP sin usar de una parte (CU-08)
+    // Códigos OTP sin usar de una parte
     List<TokenSeguridad> findByIdParteAndTipoTokenAndUsadoFalse(Integer idParte, String tipoToken);
 
     Optional<TokenSeguridad> findFirstByIdParteAndTipoTokenAndUsadoFalseOrderByIdTokenDesc(Integer idParte,

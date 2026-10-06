@@ -20,9 +20,6 @@ import com.firmaya.core.exception.ReglaNegocioException;
 import com.firmaya.core.repository.ComentarioRepository;
 import com.firmaya.core.repository.UsuarioContratoRepository;
 
-/**
- * CU-06 – Añadir comentarios y observaciones (usuarios internos y partes externas).
- */
 @Service
 public class ComentarioService {
 
@@ -49,21 +46,18 @@ public class ComentarioService {
         this.auditoriaService = auditoriaService;
     }
 
-    // Paso 2: panel lateral de comentarios (usuario interno)
     @Transactional(readOnly = true)
     public ComentariosResponse listarComentarios(Integer idContrato) {
         contratoService.buscarContrato(idContrato);
         return listar(idContrato);
     }
 
-    // Paso 2: panel lateral de comentarios (parte externa)
     @Transactional(readOnly = true)
     public ComentariosResponse listarComentariosExterno(String token) {
         UsuarioContrato parte = accesoExternoService.buscarParteConAcceso(token);
         return listar(parte.getContrato().getIdContrato());
     }
 
-    // Pasos 13 a 18, comentario de un usuario interno
     @Transactional
     public ComentariosResponse publicarComentario(Integer idContrato, ComentarioRequest request, Usuario usuario,
             String direccionIp) {
@@ -73,12 +67,11 @@ public class ComentarioService {
         return publicar(contrato, comentario, request, null, usuario, direccionIp);
     }
 
-    // Pasos 13 a 18, comentario de una parte externa (solo Firmante o Revisor)
     @Transactional
     public ComentariosResponse publicarComentarioExterno(String token, ComentarioRequest request,
             String direccionIp) {
         UsuarioContrato parte = accesoExternoService.buscarParteConAcceso(token);
-        // Camino alternativo: el rol Solo lectura no puede comentar
+        // El rol Solo lectura no puede comentar
         if (UsuarioContrato.ROL_SOLO_LECTURA.equals(parte.getRolParte())) {
             throw new ReglaNegocioException(MENSAJE_ROL_SOLO_LECTURA);
         }
@@ -90,12 +83,10 @@ public class ComentarioService {
 
     private ComentariosResponse publicar(Contrato contrato, Comentario comentario, ComentarioRequest request,
             UsuarioContrato parteAutora, Usuario usuarioAutor, String direccionIp) {
-        // Precondición: el contrato no está Archivado
         if (EstadoContrato.ARCHIVADO.equals(contrato.getEstado().getNombre())) {
             throw new ReglaNegocioException(MENSAJE_ARCHIVADO);
         }
 
-        // Paso 14: autor, fecha, hora, texto y texto seleccionado (si existe)
         String textoSeleccionado = request.getTextoSeleccionado();
         comentario.setContrato(contrato);
         comentario.setTexto(request.getTexto().trim());
@@ -108,10 +99,8 @@ public class ComentarioService {
         auditoriaService.registrarEnContrato(usuarioAutor, "Comentario", contrato.getIdContrato(), null,
                 "Comentario de " + autor, direccionIp, null, null);
 
-        // Paso 16: aviso a las otras partes del contrato con notificaciones activas
         notificarOtrasPartes(contrato, parteAutora, usuarioAutor, autor, comentario.getTexto());
 
-        // Pasos 15, 17 y 18
         ComentariosResponse response = new ComentariosResponse();
         response.setComentario(toResponse(comentario));
         response.setTotalComentarios(comentarioRepository.countByContratoIdContrato(contrato.getIdContrato()));
@@ -126,7 +115,6 @@ public class ComentarioService {
         String evento = PreferenciaNotificacion.EVENTO_NUEVO_COMENTARIO;
         Integer idContrato = contrato.getIdContrato();
 
-        // El creador del contrato también es parte (Abogado / Agente)
         Usuario creador = contrato.getUsuarioCreador();
         if (creador != null && !esMismoUsuario(creador, usuarioAutor)) {
             notificacionService.notificarEvento(creador, creador.getEmail(), idContrato, evento, asunto, mensaje);

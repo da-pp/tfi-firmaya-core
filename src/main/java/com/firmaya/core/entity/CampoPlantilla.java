@@ -13,7 +13,6 @@ import javax.persistence.Table;
 @Table(name = "campo_plantilla")
 public class CampoPlantilla {
 
-    // Los marcadores {{campo}} no tienen tipo definido en el documento: se guardan como texto
     public static final String TIPO_TEXTO = "texto";
 
     @Id

@@ -4,9 +4,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-/**
- * CU-16 pasos 5 a 9: editor de plantillas.
- */
 public class PlantillaRequest {
 
     @NotBlank(message = "El campo Nombre de la plantilla es obligatorio")
@@ -28,7 +25,6 @@ public class PlantillaRequest {
     @Pattern(regexp = "^(Activa|Inactiva)$", message = "El estado debe ser Activa o Inactiva")
     private String estado;
 
-    // Camino alternativo: el administrador confirmó "Guardar sin campos"
     private boolean guardarSinCampos;
 
     public String getNombre() {

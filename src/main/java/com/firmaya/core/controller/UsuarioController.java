@@ -24,9 +24,6 @@ import com.firmaya.core.dto.UsuarioResponse;
 import com.firmaya.core.entity.Usuario;
 import com.firmaya.core.service.UsuarioService;
 
-/**
- * CU-15 – Gestionar usuarios y roles (BackOffice).
- */
 @RestController
 @RequestMapping("/api/admin")
 public class UsuarioController {

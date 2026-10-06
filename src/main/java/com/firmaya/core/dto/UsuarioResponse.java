@@ -1,8 +1,5 @@
 package com.firmaya.core.dto;
 
-/**
- * CU-15 paso 2: fila de la lista de usuarios (también trae los datos para el formulario de edición).
- */
 public class UsuarioResponse {
 
     private Integer idUsuario;

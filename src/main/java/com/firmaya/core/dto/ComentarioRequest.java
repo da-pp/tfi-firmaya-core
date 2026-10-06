@@ -3,9 +3,6 @@ package com.firmaya.core.dto;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-/**
- * CU-06 pasos 7 y 9.
- */
 public class ComentarioRequest {
 
     @NotBlank(message = "El comentario no puede estar vacío")
