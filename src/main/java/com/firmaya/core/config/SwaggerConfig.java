@@ -23,7 +23,7 @@ public class SwaggerConfig {
         return new OpenAPI()
                 .info(new Info()
                         .title("FirmaYA API")
-                        .description("Endpoints de los casos de uso CU-01 a CU-21. "
+                        .description("Endpoints de los casos de uso CU-01, CU-02, CU-03, CU-05, CU-06, CU-15, CU-16, CU-18, CU-19 y CU-21. "
                                 + "Las rutas /api/auth/** y /api/externo/** son públicas; "
                                 + "el resto requiere el encabezado Authorization: Bearer {token}.")
                         .version("1.0"))

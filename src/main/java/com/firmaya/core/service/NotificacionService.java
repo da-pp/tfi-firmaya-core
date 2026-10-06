@@ -75,7 +75,7 @@ public class NotificacionService {
     }
 
     /**
-     * Notificación de un evento a quien tenga "notificaciones activas" (CU-05, CU-06, CU-08).
+     * Notificación de un evento a quien tenga "notificaciones activas" (CU-05, CU-06).
      * - Parte externa (sin usuario): siempre por correo.
      * - Usuario interno: según sus preferencias del CU-20 (evento y canales). Sin preferencias guardadas,
      *   todo se considera activo.

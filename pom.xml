@@ -63,13 +63,6 @@
 			<version>1.7.0</version>
 		</dependency>
 
-		<!-- Generación del PDF del contrato firmado (CU-10). Versión 1.3.x compatible con Java 8 -->
-		<dependency>
-			<groupId>com.github.librepdf</groupId>
-			<artifactId>openpdf</artifactId>
-			<version>1.3.43</version>
-		</dependency>
-
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
